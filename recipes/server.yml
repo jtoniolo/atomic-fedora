@@ -13,8 +13,6 @@ modules:
         destination: /
 
   - type: rpm-ostree
-    repos:
-      - https://download.webmin.com/download/yum/webmin.repo
     install:
       - moby-engine
       - docker-compose

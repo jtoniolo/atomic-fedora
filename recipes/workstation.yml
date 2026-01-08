@@ -22,7 +22,6 @@ modules:
         - starship
 
   - type: rpm-ostree
-      - https://download.webmin.com/download/yum/webmin.repo
     install:
       - nodejs
       - podman
