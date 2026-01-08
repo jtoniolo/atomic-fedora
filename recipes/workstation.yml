@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: atomic-workstation
+description: Developer and gaming workstation image.
+
+base-image: ghcr.io/ublue-os/kinoite-main
+image-version: 42
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: dnf
+    repos:
+      copr:
+        - atim/starship
+    install:
+      packages:
+        - micro
+        - starship
+
+  - type: rpm-ostree
+    repos:
+      - https://packages.microsoft.com/yumrepos/vscode
+    install:
+      - nodejs
+      - podman
+      - code
+      - webmin
+      - openssh-server
+      # Printing
+      - cups
+      - system-config-printer
+      - gutenprint
+      - hplip
+
+  - type: systemd
+    system:
+      enabled:
+        - sshd
+        - webmin
+        - cups
+
+  - type: default-flatpaks
+    configurations:
+      - notify: true
+        scope: system
+        install:
+          - org.prismlauncher.PrismLauncher
+          - org.onlyoffice.desktopeditors
+          - com.nextcloud.desktopclient.Nextcloud
+          - com.valvesoftware.Steam
+          - org.kde.kcalc
+
+  - type: signing

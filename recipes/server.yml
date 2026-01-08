@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: atomic-server
+description: Homelab and media server image.
+
+base-image: ghcr.io/ublue-os/silverblue-main
+image-version: 42
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: rpm-ostree
+    repos:
+      - https://downloads.plex.tv/repo/rpm/plex.repo
+      - https://download.webmin.com/download/yum/webmin.repo
+    install:
+      - moby-engine
+      - docker-compose
+      - plexmediaserver
+      - webmin
+      - libvirt
+      - virt-install
+      - qemu-kvm
+      - openssh-server
+
+  - type: systemd
+    system:
+      enabled:
+        - sshd
+        - docker
+        - plexmediaserver
+        - webmin
+        - libvirtd
+
+  - type: signing
