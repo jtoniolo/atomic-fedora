@@ -14,7 +14,6 @@ modules:
 
   - type: rpm-ostree
     repos:
-      - https://downloads.plex.tv/repo/rpm/plex.repo
       - https://download.webmin.com/download/yum/webmin.repo
     install:
       - moby-engine

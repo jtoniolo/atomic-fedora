@@ -22,8 +22,7 @@ modules:
         - starship
 
   - type: rpm-ostree
-    repos:
-      - https://packages.microsoft.com/yumrepos/vscode
+      - https://download.webmin.com/download/yum/webmin.repo
     install:
       - nodejs
       - podman
