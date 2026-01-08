@@ -14,25 +14,25 @@ modules:
 
   - type: dnf
     repos:
+      files:
+        - vscode.repo
+        - webmin.repo
       copr:
         - atim/starship
     install:
       packages:
         - micro
         - starship
-
-  - type: rpm-ostree
-    install:
-      - nodejs
-      - podman
-      - code
-      - webmin
-      - openssh-server
-      # Printing
-      - cups
-      - system-config-printer
-      - gutenprint
-      - hplip
+        - nodejs
+        - podman
+        - code
+        - webmin
+        - openssh-server
+        # Printing
+        - cups
+        - system-config-printer
+        - gutenprint
+        - hplip
 
   - type: systemd
     system:

@@ -12,16 +12,21 @@ modules:
       - source: system
         destination: /
 
-  - type: rpm-ostree
+  - type: dnf
+    repos:
+      files:
+        - plex.repo
+        - webmin.repo
     install:
-      - moby-engine
-      - docker-compose
-      - plexmediaserver
-      - webmin
-      - libvirt
-      - virt-install
-      - qemu-kvm
-      - openssh-server
+      packages:
+        - moby-engine
+        - docker-compose
+        - plexmediaserver
+        - webmin
+        - libvirt
+        - virt-install
+        - qemu-kvm
+        - openssh-server
 
   - type: systemd
     system:
