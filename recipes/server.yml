@@ -3,8 +3,8 @@
 name: atomic-server
 description: Homelab and media server image.
 
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42
+base-image: ghcr.io/ublue-os/ucore-main
+image-version: latest
 
 modules:
   - type: files
@@ -19,22 +19,49 @@ modules:
         - webmin.repo
     install:
       packages:
+        # Management
+        - cockpit
+        - cockpit-podman
+        - cockpit-machines
+        - webmin
+        - htop
+        - fastfetch
+        - ncdu
+        - tmux
+        - rsync
+        - bind-utils
+        - iotop
+        - tailscale
+        - btop
+        - duf
+
+        # Container Engine
         - moby-engine
         - docker-compose
-        - plexmediaserver
-        - webmin
+
+        # Virtualization
+        - qemu-kvm
         - libvirt
         - virt-install
-        - qemu-kvm
-        - openssh-server
+        - libvirt-daemon-config-network
+        - libvirt-daemon-kvm
+
+        # Media
+        - plexmediaserver
+
+        # Printing
+        - cups
 
   - type: systemd
     system:
       enabled:
-        - sshd
-        - docker
-        - plexmediaserver
-        - webmin
-        - libvirtd
+        - sshd.service
+        - cockpit.socket
+        - docker.service
+        - plexmediaserver.service
+        - webmin.service
+        - libvirtd.service
+        - cups.service
+        - tailscaled.service
 
   - type: signing

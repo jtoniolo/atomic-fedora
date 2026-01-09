@@ -4,7 +4,7 @@ name: atomic-workstation
 description: Developer and gaming workstation image.
 
 base-image: ghcr.io/ublue-os/kinoite-main
-image-version: 42
+image-version: latest
 
 modules:
   - type: files
@@ -21,35 +21,111 @@ modules:
         - atim/starship
     install:
       packages:
-        - micro
-        - starship
+      # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
+        - fwupd             # CRITICAL: Updates BIOS/NVMe (fixes sleep drain)
+        - radeontop         # GPU Monitor for Ryzen Vega graphics
+        - libva-utils       # Verify hardware video acceleration
+        - acpi              # Battery status cli tool
+        - tlp               # Superior battery life for Ryzen 5000 vs stock PPD
+        - tlp-rdw           # Radio device wizard for TLP
+
+      # --- SHELL & CORE UTILITIES ---
+        - micro             # Easy terminal editor
+        - starship          # Shell prompt
+        - fastfetch         # System info (neofetch replacement)
+        - bat               # Cat with wings (syntax highlighting)
+        - fzf               # Fuzzy finder
+        - ripgrep           # Better grep
+        - tmux              # Terminal multiplexer
+        - p7zip             # Archive tool
+        - p7zip-plugins
+        - zoxide            # Smarter 'cd'
+        - lazygit           # Terminal Git UI
+        - powertop          # Battery saver
+        - htop
+        - fastfetch
+        - ncdu
+        - rsync
+        - bind-utils
+        - iotop
+        - tailscale
+        - btop
+        - duf
+
+        # --- DEVELOPMENT ---
+        - code              # VS Code (requires vscode.repo)
         - nodejs
-        - podman
-        - code
-        - webmin
-        - openssh-server
-        # Printing
-        - cups
-        - system-config-printer
-        - gutenprint
-        - hplip
+        - distrobox         # Containers for dev work
+        - podman-docker     # Docker CLI alias for Podman
+
+        # --- SYSTEM ADMIN & NETWORK ---
+        - tailscale         # Mesh VPN
+        - webmin            # Web UI Admin (requires webmin.repo)
+        - gutenprint        # Printer drivers
+
+  # --- POST-INSTALL SCRIPTS ---
+  # Sets up TLP for battery and creates the Dev Container for Antigravity
+  - type: script
+    scripts:
+      - name: "T14 Setup & Antigravity Prep"
+        script: |
+          #!/bin/bash
+          # Enable TLP for better Ryzen battery life
+          systemctl enable tlp
+          systemctl mask power-profiles-daemon
+          
+          # Create a Distrobox for Google Antigravity (User must run 'distrobox-enter Google-Dev' to finish)
+          # We cannot download the .rpm automatically due to the Google Login wall.
+          echo "Run 'distrobox create -n Google-Dev -i fedora:41' to setup your Agentic environment."
+
 
   - type: systemd
     system:
       enabled:
-        - sshd
-        - webmin
-        - cups
+        - sshd.service
+        - webmin.service
+        - cups.service
+        - tailscaled.service
 
   - type: default-flatpaks
     configurations:
       - notify: true
         scope: system
         install:
+          # --- BROWSERS (Multi-Browser Setup) ---
+          - org.mozilla.firefox            # Standard Firefox
+          - com.google.Chrome              # Standard Chrome for testing
+          - com.brave.Browser              # Brave (Privacy/Web3 testing)
+          - com.microsoft.Edge             # Edge (Yes, for cross-browser testing)
+
+          # --- DEVELOPMENT ---
+          - com.visualstudio.code          # VS Code
+          - com.getpostman.Postman         # API Testing
+          - io.dbeaver.DBeaverCommunity    # Universal Database Tool
+          - com.mongodb.Compass            # MongoDB GUI
+          - com.axosoft.GitKraken          # Git GUI (Optional, but popular)
+          - rest.insomnia.Insomnia         # API Tool alternative
+
+          # --- GAMING ---
           - org.prismlauncher.PrismLauncher
-          - org.onlyoffice.desktopeditors
-          - com.nextcloud.desktopclient.Nextcloud
           - com.valvesoftware.Steam
+          - com.heroicgameslauncher.hgl    # Epic/GOG Launcher
+          - net.lutris.Lutris              # General game launcher
+          - net.davidotek.pupgui2          # ProtonUp-Qt (Proton manager)
+
+          # --- PRODUCTIVITY & TOOLS ---
+          - com.github.tchx84.Flatseal     # Permission manager (ESSENTIAL)
+          - com.bitwarden.desktop          # Password Manager
+          - org.onlyoffice.desktopeditors  # Office Suite
+          - org.libreoffice.LibreOffice    # Office Alternative
+          - com.nextcloud.desktopclient.Nextcloud
           - org.kde.kcalc
+          - org.localsend.localsend_app    # AirDrop alternative
+          - com.actualbudget.actualbudget  # Finance
+
+          # --- MEDIA ---
+          - org.videolan.VLC               # The King of Players
+          - com.obsproject.Studio          # OBS (Great for recording demos/streaming)
+          - com.spotify.Client             # Music for coding sessions
 
   - type: signing
