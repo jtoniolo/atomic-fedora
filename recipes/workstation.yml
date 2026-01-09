@@ -49,7 +49,7 @@ modules:
         - cups.service
         - tailscaled.service
         - tlp.service
-        - cockpit.socket
+        #- cockpit.socket
 
   - type: default-flatpaks
     configurations:

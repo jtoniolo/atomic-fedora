@@ -24,13 +24,13 @@ modules:
 
         # --- MEDIA & PRINTING ---
         - plexmediaserver
-        - cups
+        #- cups
 
   - type: systemd
     system:
       enabled:
         - sshd.service
-        - cockpit.socket
+        #- cockpit.socket
         - libvirtd.service
         - cups.service
         - tailscaled.service
