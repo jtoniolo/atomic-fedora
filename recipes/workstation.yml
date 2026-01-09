@@ -29,19 +29,13 @@ modules:
         - acpi
         - tlp
         - tlp-rdw
-        - smartmontools
 
       # --- SHELL & CORE UTILITIES ---
         - micro
-        - fastfetch
         - bat
         - ripgrep
-        - tmux
         - p7zip
         - p7zip-plugins
-        - lazygit
-        - powertop
-        - htop
         - ncdu
         - btop
         - duf

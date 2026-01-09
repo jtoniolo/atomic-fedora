@@ -18,12 +18,7 @@ modules:
     install:
       packages:
         # --- TOOLS ---
-        - htop
-        - fastfetch
         - ncdu
-        #- rsync
-        #- bind-utils
-        #- iotop
         - btop
         - duf
 
