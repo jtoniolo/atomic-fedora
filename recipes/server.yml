@@ -3,7 +3,7 @@
 name: atomic-server
 description: Homelab and media server image.
 
-base-image: ghcr.io/ublue-os/ucore-main
+base-image: ghcr.io/ublue-os/ucore-hci
 image-version: latest
 
 modules:
@@ -20,31 +20,23 @@ modules:
     install:
       packages:
         # Management
-        - cockpit
         - cockpit-podman
-        - cockpit-machines
         - webmin
         - htop
         - fastfetch
         - ncdu
-        - tmux
         - rsync
         - bind-utils
         - iotop
-        - tailscale
         - btop
         - duf
 
         # Container Engine
         - moby-engine
-        - docker-compose
 
         # Virtualization
         - qemu-kvm
-        - libvirt
-        - virt-install
         - libvirt-daemon-config-network
-        - libvirt-daemon-kvm
 
         # Media
         - plexmediaserver

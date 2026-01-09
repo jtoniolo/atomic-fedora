@@ -1,9 +1,8 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: atomic-workstation
-description: Developer and gaming workstation image.
+description: ThinkPad T14 AMD developer & gaming workstation.
 
-base-image: ghcr.io/ublue-os/kinoite-main
+base-image: ghcr.io/ublue-os/aurora-dx
 image-version: latest
 
 modules:
@@ -12,120 +11,105 @@ modules:
       - source: system
         destination: /
 
+  # --- SCRIPTS & FIXES ---
+  - type: script
+    scripts:
+      # TLP requires masking the default power-profiles-daemon to function
+      - name: disable-ppd
+        script: |
+          systemctl mask power-profiles-daemon.service
+
   - type: dnf
     repos:
-      files:
-        - vscode.repo
-        - webmin.repo
+      # Removed vscode.repo (Code is built-in to aurora-dx)
+      # Removed webmin.repo (Replaced with Cockpit)
       copr:
-        - atim/starship
+        - atim/starship # Kept just in case, but usually built-in
     install:
       packages:
       # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
-        - fwupd             # CRITICAL: Updates BIOS/NVMe (fixes sleep drain)
-        - radeontop         # GPU Monitor for Ryzen Vega graphics
-        - libva-utils       # Verify hardware video acceleration
-        - acpi              # Battery status cli tool
-        - tlp               # Superior battery life for Ryzen 5000 vs stock PPD
-        - tlp-rdw           # Radio device wizard for TLP
+        - fwupd             # Firmware updates
+        - radeontop         # GPU Monitor for Ryzen Vega
+        - libva-utils       # Video acceleration verification
+        - acpi              # Battery status
+        - tlp               # Battery life optimization
+        - tlp-rdw           # Radio wizard
+        - smartmontools     # NVMe/SSD health monitoring
 
       # --- SHELL & CORE UTILITIES ---
+      # Removed: starship, fzf, zoxide, distrobox, tailscale (Built-in to Aurora-DX)
+      # Removed: code, nodejs (VS Code is built-in; use DevContainers/Homebrew for Node)
         - micro             # Easy terminal editor
-        - starship          # Shell prompt
-        - fastfetch         # System info (neofetch replacement)
-        - bat               # Cat with wings (syntax highlighting)
-        - fzf               # Fuzzy finder
+        - fastfetch         # System info
+        - bat               # Cat replacement
         - ripgrep           # Better grep
-        - tmux              # Terminal multiplexer
-        - p7zip             # Archive tool
+        - tmux              # Multiplexer
+        - p7zip             # Archives
         - p7zip-plugins
-        - zoxide            # Smarter 'cd'
-        - lazygit           # Terminal Git UI
-        - powertop          # Battery saver
+        - lazygit           # Git UI
+        - powertop          # Power monitoring
         - htop
-        - fastfetch
-        - ncdu
+        - ncdu              # Disk usage
         - rsync
-        - bind-utils
+        - bind-utils        # Dig/Nslookup
         - iotop
-        - tailscale
-        - btop
-        - duf
+        - btop              # Better Htop
+        - duf               # Disk Usage Free
 
-        # --- DEVELOPMENT ---
-        - code              # VS Code (requires vscode.repo)
-        - nodejs
-        - distrobox         # Containers for dev work
-        - podman-docker     # Docker CLI alias for Podman
-
-        # --- SYSTEM ADMIN & NETWORK ---
-        - tailscale         # Mesh VPN
-        - webmin            # Web UI Admin (requires webmin.repo)
+        # --- SYSTEM ADMIN ---
+        - cockpit           # Web Console (Modern Webmin replacement)
+        - cockpit-podman    # Manage containers via Web UI
+        - cockpit-networkmanager
         - gutenprint        # Printer drivers
-
-  # --- POST-INSTALL SCRIPTS ---
-  # Sets up TLP for battery and creates the Dev Container for Antigravity
-  - type: script
-    scripts:
-      - name: "T14 Setup & Antigravity Prep"
-        script: |
-          #!/bin/bash
-          # Enable TLP for better Ryzen battery life
-          systemctl enable tlp
-          systemctl mask power-profiles-daemon
-          
-          # Create a Distrobox for Google Antigravity (User must run 'distrobox-enter Google-Dev' to finish)
-          # We cannot download the .rpm automatically due to the Google Login wall.
-          echo "Run 'distrobox create -n Google-Dev -i fedora:41' to setup your Agentic environment."
-
 
   - type: systemd
     system:
       enabled:
         - sshd.service
-        - webmin.service
         - cups.service
         - tailscaled.service
+        - tlp.service       # Enable TLP
+        - cockpit.socket    # Enable Web Console (Access at localhost:9090)
 
   - type: default-flatpaks
     configurations:
       - notify: true
         scope: system
         install:
-          # --- BROWSERS (Multi-Browser Setup) ---
-          - org.mozilla.firefox            # Standard Firefox
-          - com.google.Chrome              # Standard Chrome for testing
-          - com.brave.Browser              # Brave (Privacy/Web3 testing)
-          - com.microsoft.Edge             # Edge (Yes, for cross-browser testing)
+          # --- BROWSERS ---
+          - org.mozilla.firefox
+          - com.google.Chrome
+          - com.brave.Browser
+          - com.microsoft.Edge
 
           # --- DEVELOPMENT ---
-          - com.visualstudio.code          # VS Code
-          - com.getpostman.Postman         # API Testing
-          - io.dbeaver.DBeaverCommunity    # Universal Database Tool
-          - com.mongodb.Compass            # MongoDB GUI
-          - com.axosoft.GitKraken          # Git GUI (Optional, but popular)
-          - rest.insomnia.Insomnia         # API Tool alternative
+          # Removed: com.visualstudio.code (Use the host version included in Aurora-DX)
+          - com.getpostman.Postman
+          - io.dbeaver.DBeaverCommunity
+          - com.mongodb.Compass
+          - com.axosoft.GitKraken
+          - rest.insomnia.Insomnia
 
           # --- GAMING ---
           - org.prismlauncher.PrismLauncher
           - com.valvesoftware.Steam
-          - com.heroicgameslauncher.hgl    # Epic/GOG Launcher
-          - net.lutris.Lutris              # General game launcher
-          - net.davidotek.pupgui2          # ProtonUp-Qt (Proton manager)
+          - com.heroicgameslauncher.hgl
+          - net.lutris.Lutris
+          - net.davidotek.pupgui2          # ProtonUp-Qt
 
           # --- PRODUCTIVITY & TOOLS ---
-          - com.github.tchx84.Flatseal     # Permission manager (ESSENTIAL)
-          - com.bitwarden.desktop          # Password Manager
-          - org.onlyoffice.desktopeditors  # Office Suite
-          - org.libreoffice.LibreOffice    # Office Alternative
+          - com.github.tchx84.Flatseal     # Permissions Manager
+          - com.bitwarden.desktop
+          - org.onlyoffice.desktopeditors
+          - org.libreoffice.LibreOffice
           - com.nextcloud.desktopclient.Nextcloud
           - org.kde.kcalc
-          - org.localsend.localsend_app    # AirDrop alternative
-          - com.actualbudget.actualbudget  # Finance
+          - org.localsend.localsend_app
+          - com.actualbudget.actualbudget
 
           # --- MEDIA ---
-          - org.videolan.VLC               # The King of Players
-          - com.obsproject.Studio          # OBS (Great for recording demos/streaming)
-          - com.spotify.Client             # Music for coding sessions
+          - org.videolan.VLC
+          - com.obsproject.Studio
+          - com.spotify.Client
 
   - type: signing
