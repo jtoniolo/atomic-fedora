@@ -21,9 +21,9 @@ modules:
         - htop
         - fastfetch
         - ncdu
-        - rsync
-        - bind-utils
-        - iotop
+        #- rsync
+        #- bind-utils
+        #- iotop
         - btop
         - duf
 

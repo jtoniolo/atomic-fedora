@@ -43,17 +43,10 @@ modules:
         - powertop
         - htop
         - ncdu
-        - rsync
-        - bind-utils
-        - iotop
         - btop
         - duf
 
         # --- SYSTEM ADMIN ---
-        - cockpit
-        - cockpit-podman
-        - cockpit-networkmanager
-        - gutenprint
 
   - type: systemd
     system:
