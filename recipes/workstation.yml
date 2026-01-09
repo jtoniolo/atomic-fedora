@@ -11,56 +11,49 @@ modules:
       - source: system
         destination: /
 
-  # --- SCRIPTS & FIXES ---
-  - type: script
-    scripts:
-      # TLP requires masking the default power-profiles-daemon to function
-      - name: "disable-ppd"
-        script: |
-          systemctl mask power-profiles-daemon.service
+  # --- FIX: Use 'containerfile' for inline commands instead of 'script' ---
+  - type: containerfile
+    snippets:
+      - RUN systemctl mask power-profiles-daemon.service
 
   - type: dnf
     repos:
-      # Removed vscode.repo (Code is built-in to aurora-dx)
-      # Removed webmin.repo (Replaced with Cockpit)
       copr:
-        - atim/starship # Kept just in case, but usually built-in
+        - atim/starship
     install:
       packages:
       # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
-        - fwupd             # Firmware updates
-        - radeontop         # GPU Monitor for Ryzen Vega
-        - libva-utils       # Video acceleration verification
-        - acpi              # Battery status
-        - tlp               # Battery life optimization
-        - tlp-rdw           # Radio wizard
-        - smartmontools     # NVMe/SSD health monitoring
+        - fwupd
+        - radeontop
+        - libva-utils
+        - acpi
+        - tlp
+        - tlp-rdw
+        - smartmontools
 
       # --- SHELL & CORE UTILITIES ---
-      # Removed: starship, fzf, zoxide, distrobox, tailscale (Built-in to Aurora-DX)
-      # Removed: code, nodejs (VS Code is built-in; use DevContainers/Homebrew for Node)
-        - micro             # Easy terminal editor
-        - fastfetch         # System info
-        - bat               # Cat replacement
-        - ripgrep           # Better grep
-        - tmux              # Multiplexer
-        - p7zip             # Archives
+        - micro
+        - fastfetch
+        - bat
+        - ripgrep
+        - tmux
+        - p7zip
         - p7zip-plugins
-        - lazygit           # Git UI
-        - powertop          # Power monitoring
+        - lazygit
+        - powertop
         - htop
-        - ncdu              # Disk usage
+        - ncdu
         - rsync
-        - bind-utils        # Dig/Nslookup
+        - bind-utils
         - iotop
-        - btop              # Better Htop
-        - duf               # Disk Usage Free
+        - btop
+        - duf
 
         # --- SYSTEM ADMIN ---
-        - cockpit           # Web Console (Modern Webmin replacement)
-        - cockpit-podman    # Manage containers via Web UI
+        - cockpit
+        - cockpit-podman
         - cockpit-networkmanager
-        - gutenprint        # Printer drivers
+        - gutenprint
 
   - type: systemd
     system:
@@ -68,8 +61,8 @@ modules:
         - sshd.service
         - cups.service
         - tailscaled.service
-        - tlp.service       # Enable TLP
-        - cockpit.socket    # Enable Web Console (Access at localhost:9090)
+        - tlp.service
+        - cockpit.socket
 
   - type: default-flatpaks
     configurations:
@@ -83,7 +76,6 @@ modules:
           - com.microsoft.Edge
 
           # --- DEVELOPMENT ---
-          # Removed: com.visualstudio.code (Use the host version included in Aurora-DX)
           - com.getpostman.Postman
           - io.dbeaver.DBeaverCommunity
           - com.mongodb.Compass
@@ -95,10 +87,10 @@ modules:
           - com.valvesoftware.Steam
           - com.heroicgameslauncher.hgl
           - net.lutris.Lutris
-          - net.davidotek.pupgui2          # ProtonUp-Qt
+          - net.davidotek.pupgui2
 
           # --- PRODUCTIVITY & TOOLS ---
-          - com.github.tchx84.Flatseal     # Permissions Manager
+          - com.github.tchx84.Flatseal
           - com.bitwarden.desktop
           - org.onlyoffice.desktopeditors
           - org.libreoffice.LibreOffice

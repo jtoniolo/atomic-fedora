@@ -2,7 +2,6 @@
 name: atomic-server
 description: Homelab and media server image.
 
-# ucore-hci ALREADY contains: qemu-kvm, libvirt, cockpit, and podman
 base-image: ghcr.io/ublue-os/ucore-hci
 image-version: latest
 
@@ -16,7 +15,6 @@ modules:
     repos:
       files:
         - plex.repo
-        # Removed webmin.repo (Incompatible with Atomic updates; run as container if needed)
     install:
       packages:
         # --- TOOLS ---
@@ -29,27 +27,19 @@ modules:
         - btop
         - duf
 
-        # --- CONTAINER ENGINE ---
-        # Note: uCore is Podman-native. 'moby-engine' adds Docker.
-        - moby-engine
-
         # --- MEDIA & PRINTING ---
         - plexmediaserver
         - cups
-
-        # REMOVED: qemu-kvm, libvirt-*, cockpit-podman (Built-in to ucore-hci)
-        # REMOVED: webmin (Causes sysusers conflicts; use Cockpit or run Webmin in Docker)
 
   - type: systemd
     system:
       enabled:
         - sshd.service
         - cockpit.socket
-        - docker.service
-        - plexmediaserver.service
-        # - webmin.service (Removed)
         - libvirtd.service
         - cups.service
         - tailscaled.service
+        - plexmediaserver.service
+        - podman.socket      # <--- REQUIRED: Allows Portainer (or other tools) to control Podman
 
   - type: signing
