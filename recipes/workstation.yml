@@ -81,10 +81,10 @@ modules:
           - com.bitwarden.desktop
           - org.onlyoffice.desktopeditors
           - org.libreoffice.LibreOffice
-          - com.nextcloud.desktopclient.Nextcloud
+          #- com.nextcloud.desktopclient.Nextcloud
           - org.kde.kcalc
           - org.localsend.localsend_app
-          - com.actualbudget.actualbudget
+          #- com.actualbudget.actualbudget
 
           # --- MEDIA ---
           - org.videolan.VLC

@@ -23,8 +23,8 @@ modules:
         - duf
 
         # --- MEDIA & PRINTING ---
-        - plexmediaserver
-        #- cups
+        #- plexmediaserver
+        - cups
 
   - type: systemd
     system:
