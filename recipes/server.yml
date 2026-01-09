@@ -34,7 +34,7 @@ modules:
         - libvirtd.service
         - cups.service
         - tailscaled.service
-        - plexmediaserver.service
+        #- plexmediaserver.service
         - podman.socket      # <--- REQUIRED: Allows Portainer (or other tools) to control Podman
 
   - type: signing
