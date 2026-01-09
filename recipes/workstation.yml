@@ -15,7 +15,7 @@ modules:
   - type: script
     scripts:
       # TLP requires masking the default power-profiles-daemon to function
-      - name: disable-ppd
+      - name: "disable-ppd"
         script: |
           systemctl mask power-profiles-daemon.service
 

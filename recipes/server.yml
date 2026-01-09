@@ -1,8 +1,8 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: atomic-server
 description: Homelab and media server image.
 
+# ucore-hci ALREADY contains: qemu-kvm, libvirt, cockpit, and podman
 base-image: ghcr.io/ublue-os/ucore-hci
 image-version: latest
 
@@ -16,12 +16,10 @@ modules:
     repos:
       files:
         - plex.repo
-        - webmin.repo
+        # Removed webmin.repo (Incompatible with Atomic updates; run as container if needed)
     install:
       packages:
-        # Management
-        - cockpit-podman
-        - webmin
+        # --- TOOLS ---
         - htop
         - fastfetch
         - ncdu
@@ -31,18 +29,16 @@ modules:
         - btop
         - duf
 
-        # Container Engine
+        # --- CONTAINER ENGINE ---
+        # Note: uCore is Podman-native. 'moby-engine' adds Docker.
         - moby-engine
 
-        # Virtualization
-        - qemu-kvm
-        - libvirt-daemon-config-network
-
-        # Media
+        # --- MEDIA & PRINTING ---
         - plexmediaserver
-
-        # Printing
         - cups
+
+        # REMOVED: qemu-kvm, libvirt-*, cockpit-podman (Built-in to ucore-hci)
+        # REMOVED: webmin (Causes sysusers conflicts; use Cockpit or run Webmin in Docker)
 
   - type: systemd
     system:
@@ -51,7 +47,7 @@ modules:
         - cockpit.socket
         - docker.service
         - plexmediaserver.service
-        - webmin.service
+        # - webmin.service (Removed)
         - libvirtd.service
         - cups.service
         - tailscaled.service
