@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: atomic-server
+description: Homelab and media server image.
+
+base-image: ghcr.io/ublue-os/ucore-hci
+image-version: latest
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: dnf
+    repos:
+      files:
+        - plex.repo
+    install:
+      packages:
+        # --- TOOLS ---
+        - ncdu
+        - btop
+        - duf
+
+        # --- MEDIA & PRINTING ---
+        #- plexmediaserver
+        - cups
+
+  - type: systemd
+    system:
+      enabled:
+        - sshd.service
+        #- cockpit.socket
+        - libvirtd.service
+        - cups.service
+        - tailscaled.service
+        #- plexmediaserver.service
+        - podman.socket      # <--- REQUIRED: Allows Portainer (or other tools) to control Podman
+
+  - type: signing

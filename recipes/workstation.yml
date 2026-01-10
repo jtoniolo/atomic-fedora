@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: atomic-workstation
+description: ThinkPad T14 AMD developer & gaming workstation.
+
+base-image: ghcr.io/ublue-os/aurora-dx
+image-version: latest
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  # --- FIX: Use 'containerfile' for inline commands instead of 'script' ---
+  - type: containerfile
+    snippets:
+      - RUN systemctl mask power-profiles-daemon.service
+
+  - type: dnf
+    repos:
+      files:
+        - antigravity.repo
+      copr:
+        - atim/starship
+    install:
+      packages:
+        # --- AI CODING ASSISTANT ---
+        - antigravity
+
+        # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
+        - fwupd
+        - radeontop
+        - libva-utils
+        - acpi
+        - tlp
+        - tlp-rdw
+
+        # --- SHELL & CORE UTILITIES ---
+        - micro
+        - bat
+        - ripgrep
+        - p7zip
+        - p7zip-plugins
+        - ncdu
+        - btop
+        - duf
+
+        # --- SYSTEM ADMIN ---
+        - btrfs-assistant
+        - snapper
+
+  - type: systemd
+    system:
+      enabled:
+        - sshd.service
+        - cups.service
+        - tailscaled.service
+        - tlp.service
+        #- cockpit.socket
+
+  - type: default-flatpaks
+    configurations:
+      - notify: true
+        scope: system
+        install:
+          # --- BROWSERS ---
+          - org.mozilla.firefox
+          - com.google.Chrome
+          - com.brave.Browser
+          - com.microsoft.Edge
+
+          # --- DEVELOPMENT ---
+          - com.getpostman.Postman
+          - io.dbeaver.DBeaverCommunity
+          - com.mongodb.Compass
+          - rest.insomnia.Insomnia
+          - io.podman_desktop.PodmanDesktop
+
+          # --- GAMING ---
+          - org.prismlauncher.PrismLauncher
+          - com.valvesoftware.Steam
+          - com.heroicgameslauncher.hgl
+          - net.lutris.Lutris
+          - net.davidotek.pupgui2
+          - org.gnome.Mahjongg
+
+          # --- PRODUCTIVITY & TOOLS ---
+          - com.github.tchx84.Flatseal
+          - com.bitwarden.desktop
+          - org.onlyoffice.desktopeditors
+          - org.libreoffice.LibreOffice
+          - com.nextcloud.desktopclient.nextcloud
+          - com.actualbudget.actual
+          - org.kde.kcalc
+          - org.localsend.localsend_app
+          - io.github.kolunmi.Bazaar
+          - md.obsidian.Obsidian
+
+          # --- COMMUNICATION & MESSAGING ---
+          - com.discordapp.Discord
+          - us.zoom.Zoom
+
+          # --- MEDIA ---
+          - org.videolan.VLC
+          - com.obsproject.Studio
+          - com.spotify.Client
+          - com.plexamp.Plexamp
+          - tv.plex.PlexDesktop
+
+  - type: signing
