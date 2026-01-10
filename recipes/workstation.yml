@@ -20,9 +20,14 @@ modules:
     repos:
       copr:
         - atim/starship
+      custom:
+        - name: antigravity-rpm
+          baseurl: https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
+          enabled: true
+          gpgcheck: false
     install:
       packages:
-      # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
+        # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
         - fwupd
         - radeontop
         - libva-utils
@@ -30,7 +35,7 @@ modules:
         - tlp
         - tlp-rdw
 
-      # --- SHELL & CORE UTILITIES ---
+        # --- SHELL & CORE UTILITIES ---
         - micro
         - bat
         - ripgrep
@@ -40,7 +45,12 @@ modules:
         - btop
         - duf
 
+        # --- DEVELOPMENT ---
+        - antigravity
+
         # --- SYSTEM ADMIN ---
+        - btrfs-assistant
+        - snapper
 
   - type: systemd
     system:
@@ -66,8 +76,8 @@ modules:
           - com.getpostman.Postman
           - io.dbeaver.DBeaverCommunity
           - com.mongodb.Compass
-          - com.axosoft.GitKraken
           - rest.insomnia.Insomnia
+          - io.podman_desktop.PodmanDesktop
 
           # --- GAMING ---
           - org.prismlauncher.PrismLauncher
@@ -75,20 +85,29 @@ modules:
           - com.heroicgameslauncher.hgl
           - net.lutris.Lutris
           - net.davidotek.pupgui2
+          - org.gnome.Mahjongg
 
           # --- PRODUCTIVITY & TOOLS ---
           - com.github.tchx84.Flatseal
           - com.bitwarden.desktop
           - org.onlyoffice.desktopeditors
           - org.libreoffice.LibreOffice
-          #- com.nextcloud.desktopclient.Nextcloud
+          - com.nextcloud.desktopclient.nextcloud
+          - com.actualbudget.actual
           - org.kde.kcalc
           - org.localsend.localsend_app
-          #- com.actualbudget.actualbudget
+          - io.github.kolunmi.Bazaar
+          - md.obsidian.Obsidian
+
+          # --- COMMUNICATION & MESSAGING ---
+          - com.discordapp.Discord
+          - us.zoom.Zoom
 
           # --- MEDIA ---
           - org.videolan.VLC
           - com.obsproject.Studio
           - com.spotify.Client
+          - com.plexamp.Plexamp
+          - tv.plex.PlexDesktop
 
   - type: signing
