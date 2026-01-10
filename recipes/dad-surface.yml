@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: dad-surface
+description: Surface setup for Dad - Basic usage and light gaming.
+
+base-image: ghcr.io/ublue-os/aurora-surface
+image-version: latest
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: containerfile
+    snippets:
+      - RUN systemctl mask power-profiles-daemon.service
+
+  - type: dnf
+    install:
+      packages:
+        - fwupd
+        - acpi
+        - tlp
+        - tlp-rdw
+        - libva-utils
+
+  - type: systemd
+    system:
+      enabled:
+        - sshd.service
+        - cups.service
+        - tailscaled.service
+        - tlp.service
+
+  - type: default-flatpaks
+    configurations:
+      - notify: true
+        scope: system
+        install:
+          # --- BROWSERS ---
+          - com.google.Chrome
+
+          # --- PRODUCTIVITY ---
+          - org.libreoffice.LibreOffice
+          - org.onlyoffice.desktopeditors
+          - com.github.tchx84.Flatseal
+
+          # --- GAMES ---
+          - org.gnome.Mahjongg
+          - org.gnome.Aisleriot
+          - org.gnome.Sudoku
+
+          # --- MEDIA ---
+          - org.videolan.VLC
+          - com.spotify.Client
+
+  - type: signing
