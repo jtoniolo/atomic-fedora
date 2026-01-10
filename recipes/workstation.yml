@@ -18,15 +18,15 @@ modules:
 
   - type: dnf
     repos:
+      files:
+        - antigravity.repo
       copr:
         - atim/starship
-      custom:
-        - name: antigravity-rpm
-          baseurl: https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
-          enabled: true
-          gpgcheck: false
     install:
       packages:
+        # --- AI CODING ASSISTANT ---
+        - antigravity
+
         # --- THINKPAD T14 GEN 2 AMD HARDWARE ---
         - fwupd
         - radeontop
@@ -44,9 +44,6 @@ modules:
         - ncdu
         - btop
         - duf
-
-        # --- DEVELOPMENT ---
-        - antigravity
 
         # --- SYSTEM ADMIN ---
         - btrfs-assistant
