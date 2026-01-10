@@ -3,7 +3,7 @@ name: dad-surface
 description: Surface setup for Dad - Basic usage and light gaming.
 
 base-image: ghcr.io/ublue-os/aurora-surface
-image-version: stable
+image-version: latest
 
 modules:
   - type: files
