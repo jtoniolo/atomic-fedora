@@ -23,6 +23,7 @@ modules:
         - tlp
         - tlp-rdw
         - libva-utils
+        - kio-gdrive
 
   - type: systemd
     system:
