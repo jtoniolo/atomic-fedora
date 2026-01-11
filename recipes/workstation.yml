@@ -49,6 +49,9 @@ modules:
         - btrfs-assistant
         - snapper
 
+        # --- KDE and GUI Apps ---
+        - kio-gdrive
+
   - type: systemd
     system:
       enabled:

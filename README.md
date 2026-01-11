@@ -71,6 +71,44 @@ The `latest` tag will automatically point to the latest build. That build will s
 
 If build on Fedora Atomic, you can generate an offline ISO with the instructions available [here](https://blue-build.org/learn/universal-blue/#fresh-install-from-an-iso). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes, so for public projects something else has to be used for hosting.
 
+You can generate an ISO using the following commands:
+
+### Atomic Fedora
+```bash
+# From remote
+sudo bluebuild generate-iso --iso-name atomic-fedora.iso image ghcr.io/jtoniolo/atomic-fedora
+
+# From local recipe
+sudo bluebuild generate-iso --iso-name atomic-fedora.iso recipe recipes/recipe.yml
+```
+
+### Atomic Workstation
+```bash
+# From remote
+sudo bluebuild generate-iso --iso-name atomic-workstation.iso image ghcr.io/jtoniolo/atomic-workstation
+
+# From local recipe
+sudo bluebuild generate-iso --iso-name atomic-workstation.iso recipe recipes/workstation.yml
+```
+
+### Atomic Server
+```bash
+# From remote
+sudo bluebuild generate-iso --iso-name atomic-server.iso image ghcr.io/jtoniolo/atomic-server
+
+# From local recipe
+sudo bluebuild generate-iso --iso-name atomic-server.iso recipe recipes/server.yml
+```
+
+### Dad Surface
+```bash
+# From remote
+sudo bluebuild generate-iso --iso-name dad-surface.iso image ghcr.io/jtoniolo/dad-surface
+
+# From local recipe
+sudo bluebuild generate-iso --iso-name dad-surface.iso recipe recipes/dad-surface.yml
+```
+
 ## Verification
 
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
