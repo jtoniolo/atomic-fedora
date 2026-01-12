@@ -20,6 +20,7 @@ modules:
     repos:
       files:
         - antigravity.repo
+        - negativo17-multimedia.repo
       copr:
         - atim/starship
     install:
@@ -52,6 +53,13 @@ modules:
         # --- KDE and GUI Apps ---
         - kio-gdrive
 
+  # --- DISPLAYLINK SUPPORT ---
+  # Install with noscripts to bypass akmod %post failure, then build manually
+  - type: containerfile
+    snippets:
+      - RUN dnf install -y --setopt=tsflags=noscripts displaylink akmod-evdi
+      - RUN akmods --force
+
   - type: systemd
     system:
       enabled:
@@ -59,6 +67,7 @@ modules:
         - cups.service
         - tailscaled.service
         - tlp.service
+        - displaylink.service
         #- cockpit.socket
 
   - type: default-flatpaks
