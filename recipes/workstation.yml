@@ -3,11 +3,17 @@ name: atomic-workstation
 description: ThinkPad T14 AMD developer & gaming workstation.
 
 base-image: ghcr.io/ublue-os/aurora-dx
-image-version: latest
+image-version: stable
 
 modules:
   - type: files
     files:
+      - source: keys
+        destination: /tmp/keys # copies files/keys/* into /tmp/keys/ in the image
+      - source: rpms
+        destination: /tmp/rpms # copies files/rpms/* into /tmp/rpms/ in the image
+      - source: prebuilt-modules
+        destination: /tmp/prebuilt-modules # copies files/prebuilt-modules/* into /tmp/prebuilt-modules/ in the image
       - source: system
         destination: /
 
@@ -48,9 +54,6 @@ modules:
         # --- SYSTEM ADMIN ---
         - btrfs-assistant
         - snapper
-
-        # --- KDE and GUI Apps ---
-        - kio-gdrive
 
   - type: systemd
     system:
@@ -109,5 +112,14 @@ modules:
           - com.spotify.Client
           - com.plexamp.Plexamp
           - tv.plex.PlexDesktop
+
+  # Custom DisplayLink EVDI installation script
+  - type: displaylink
+    source: local
+    options:
+      rpm_package: /tmp/rpms/fedora-42-displaylink-1.14.10-1.github_evdi.x86_64.rpm
+      signing_keys_dir: /tmp/keys
+      evdi_git_repo: https://github.com/DisplayLink/evdi.git
+      cleanup_build_deps: true
 
   - type: signing
