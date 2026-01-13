@@ -3,15 +3,26 @@ set -euo pipefail
 
 echo "=== Building EVDI kernel module ==="
 
+# Get kernel version first - in container there's no grub, so query rpm directly
+KVER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}' | head -1)
+echo "Building for kernel: $KVER"
+
 # Install dependencies
 dnf install -y --setopt=tsflags=noscripts displaylink akmod-evdi
 
 # Create log directory for akmods
 mkdir -p /var/log/akmods
 
-# Build the kmod
-echo "Running akmods..."
-akmods --force
+# Verify kernel-devel is available
+echo "Checking kernel-devel..."
+if ! rpm -q kernel-devel-${KVER} &>/dev/null; then
+    echo "WARNING: kernel-devel-${KVER} not found, checking available:"
+    rpm -qa | grep -E "^kernel" || true
+fi
+
+# Build the kmod for the specific kernel
+echo "Running akmods for kernel $KVER..."
+akmods --force --kernels ${KVER}
 
 # Check if RPM was created
 if ! ls /var/cache/akmods/evdi/kmod-evdi-*.rpm 1>/dev/null 2>&1; then
@@ -23,8 +34,6 @@ if ! ls /var/cache/akmods/evdi/kmod-evdi-*.rpm 1>/dev/null 2>&1; then
     exit 1
 fi
 
-# Get kernel version
-KVER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}')
 echo "Kernel version: $KVER"
 
 # Extract and install the module
