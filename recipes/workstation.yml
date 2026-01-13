@@ -54,14 +54,16 @@ modules:
         - kio-gdrive
 
   # --- DISPLAYLINK SUPPORT ---
-  # Install displaylink and akmod-evdi, build kmod, then extract and install manually
-  # (akmods can't install via dnf in container builds, so we extract the built RPM)
-  - type: containerfile
-    snippets:
-      - RUN dnf install -y --setopt=tsflags=noscripts displaylink akmod-evdi
-      - RUN mkdir -p /var/log/akmods && rpm -qa | grep -E 'kernel|evdi' && ls -la /usr/src/akmods/
-      - RUN akmods --force; AKMODS_EXIT=$?; echo "akmods exit code: $AKMODS_EXIT"; ls -la /var/cache/akmods/evdi/ || echo "No evdi cache dir"; cat /var/cache/akmods/evdi/*.log 2>/dev/null || echo "No log files"; exit $AKMODS_EXIT
-      - RUN KVER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}') && cd /tmp && rpm2cpio /var/cache/akmods/evdi/kmod-evdi-*.rpm | cpio -idmv && mkdir -p /lib/modules/${KVER}/extra/evdi && cp -v lib/modules/*/extra/evdi/evdi.ko* /lib/modules/${KVER}/extra/evdi/ && depmod -a ${KVER} && rm -rf /tmp/lib
+  # Use blue-build's akmods module for evdi kernel module
+  - type: akmods
+    install:
+      - evdi
+
+  # Install displaylink userspace package
+  - type: dnf
+    install:
+      packages:
+        - displaylink
 
   - type: systemd
     system:
