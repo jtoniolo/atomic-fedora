@@ -20,7 +20,7 @@ modules:
     repos:
       files:
         - antigravity.repo
-        - negativo17-multimedia.repo
+        # negativo17-multimedia removed - no F43 packages, aurora-dx has fedora-multimedia
       copr:
         - atim/starship
     install:
@@ -54,11 +54,13 @@ modules:
         - kio-gdrive
 
   # --- DISPLAYLINK SUPPORT ---
-  # Install with noscripts to bypass akmod %post failure, then build manually
+  # Install displaylink and akmod-evdi, build kmod, then extract and install manually
+  # (akmods can't install via dnf in container builds, so we extract the built RPM)
   - type: containerfile
     snippets:
       - RUN dnf install -y --setopt=tsflags=noscripts displaylink akmod-evdi
-      - RUN akmods --force
+      - RUN akmods --force || true
+      - RUN KVER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}') && cd /tmp && rpm2cpio /var/cache/akmods/evdi/kmod-evdi-*.rpm | cpio -idmv && mkdir -p /lib/modules/${KVER}/extra/evdi && cp -v lib/modules/*/extra/evdi/evdi.ko* /lib/modules/${KVER}/extra/evdi/ && depmod -a ${KVER} && rm -rf /tmp/lib
 
   - type: systemd
     system:
