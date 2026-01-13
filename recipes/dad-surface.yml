@@ -25,6 +25,12 @@ modules:
         - libva-utils
         - kio-gdrive
 
+  # --- DISPLAYLINK SUPPORT ---
+  # Build evdi kernel module (not available in ublue-os/akmods)
+  - type: script
+    scripts:
+      - build-evdi.sh
+
   - type: systemd
     system:
       enabled:
@@ -32,6 +38,7 @@ modules:
         - cups.service
         - tailscaled.service
         - tlp.service
+        - displaylink.service
 
   - type: default-flatpaks
     configurations:
