@@ -54,16 +54,10 @@ modules:
         - kio-gdrive
 
   # --- DISPLAYLINK SUPPORT ---
-  # Use blue-build's akmods module for evdi kernel module
-  - type: akmods
-    install:
-      - evdi
-
-  # Install displaylink userspace package
-  - type: dnf
-    install:
-      packages:
-        - displaylink
+  # Build evdi kernel module (not available in ublue-os/akmods)
+  - type: script
+    scripts:
+      - build-evdi.sh
 
   - type: systemd
     system:
