@@ -8,7 +8,7 @@ KVER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}' | head -1)
 echo "Building for kernel: $KVER"
 
 # Install dependencies
-dnf install -y --setopt=tsflags=noscripts displaylink akmod-evdi
+dnf install -y --enablerepo=fedora-multimedia --setopt=tsflags=noscripts displaylink akmod-evdi
 
 # Create log directory for akmods
 mkdir -p /var/log/akmods

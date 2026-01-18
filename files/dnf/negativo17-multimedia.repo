@@ -1,6 +1,8 @@
-[negativo17-multimedia]
+[fedora-multimedia]
 name=negativo17 - Multimedia
-baseurl=https://negativo17.org/repos/multimedia/fedora/$releasever/$basearch/
+baseurl=https://negativo17.org/repos/multimedia/fedora-$releasever/$basearch/
 enabled=1
-gpgcheck=1
+skip_if_unavailable=1
 gpgkey=https://negativo17.org/repos/RPM-GPG-KEY-slaanesh
+gpgcheck=1
+metadata_expire=6h
