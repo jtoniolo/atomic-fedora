@@ -1,7 +1,5 @@
 #!/bin/bash
 
-clear
-
 # Check if bluebuild is installed
 if ! command -v bluebuild &> /dev/null; then
     echo "Error: 'bluebuild' command not found."
@@ -11,6 +9,21 @@ fi
 
 # Directory containing recipes
 RECIPE_DIR="./recipes"
+
+# Non-interactive mode: recipe path passed as argument
+if [ -n "$1" ]; then
+    recipe_path="$1"
+    if [ ! -f "$recipe_path" ]; then
+        echo "Error: Recipe file '$recipe_path' not found."
+        exit 1
+    fi
+    echo "Building $recipe_path..."
+    bluebuild build "$recipe_path"
+    exit $?
+fi
+
+# Interactive mode: prompt user to select a recipe
+clear
 
 # Check if recipes directory exists
 if [ ! -d "$RECIPE_DIR" ]; then
@@ -27,7 +40,7 @@ if [ ${#recipes[@]} -eq 0 ]; then
 fi
 
 echo "Available recipes:"
-for i in "${!recipes[@]}"; do 
+for i in "${!recipes[@]}"; do
     echo "$((i+1)). ${recipes[$i]}"
 done
 

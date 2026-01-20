@@ -3,7 +3,7 @@ name: atomic-workstation
 description: ThinkPad T14 AMD developer & gaming workstation.
 
 base-image: ghcr.io/ublue-os/aurora-dx
-image-version: latest
+image-version: stable
 
 modules:
   - type: files
