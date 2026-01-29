@@ -52,6 +52,7 @@ modules:
 
         # --- KDE and GUI Apps ---
         - kio-gdrive
+        - kpeoplevcard
 
   # --- DISPLAYLINK SUPPORT ---
   # Build evdi kernel module (not available in ublue-os/akmods)
