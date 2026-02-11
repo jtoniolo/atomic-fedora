@@ -68,6 +68,8 @@ modules:
         - tailscaled.service
         - tlp.service
         - displaylink.service
+        - create-swapfile.service
+        - var-swapfile.swap
         #- cockpit.socket
 
   - type: default-flatpaks

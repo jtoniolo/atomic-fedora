@@ -1,0 +1,11 @@
+[Unit]
+Description=32GB disk-backed swap file
+After=create-swapfile.service
+Requires=create-swapfile.service
+
+[Swap]
+What=/var/swapfile
+Priority=10
+
+[Install]
+WantedBy=swap.target

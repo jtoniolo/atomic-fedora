@@ -1,0 +1,11 @@
+[Unit]
+Description=Create 32GB disk-backed swap file
+ConditionPathExists=!/var/swapfile
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/btrfs filesystem mkswapfile --size 32g /var/swapfile
+
+[Install]
+WantedBy=swap.target
