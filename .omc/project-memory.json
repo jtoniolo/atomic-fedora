@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1770807367012,
+  "projectRoot": "/repo/atomic-fedora",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "files": {
+      "path": "files",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1770807367007,
+      "keyFiles": []
+    },
+    "modules": {
+      "path": "modules",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1770807367009,
+      "keyFiles": []
+    },
+    "recipes": {
+      "path": "recipes",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1770807367010,
+      "keyFiles": [
+        "dad-surface.yml",
+        "recipe.yml",
+        "server.yml",
+        "workstation.yml"
+      ]
+    },
+    "files/scripts": {
+      "path": "files/scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 2,
+      "lastAccessed": 1770807367010,
+      "keyFiles": [
+        "build-evdi.sh",
+        "example.sh"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1770807591019,
+      "type": "directory"
+    },
+    {
+      "path": "recipes/workstation.yml",
+      "accessCount": 2,
+      "lastAccessed": 1770808536587,
+      "type": "file"
+    },
+    {
+      "path": "files/system/etc/systemd/system/create-swapfile.service",
+      "accessCount": 2,
+      "lastAccessed": 1770808786163,
+      "type": "file"
+    },
+    {
+      "path": "files/system/etc/systemd/system/var-swapfile.swap",
+      "accessCount": 2,
+      "lastAccessed": 1770808787048,
+      "type": "file"
+    },
+    {
+      "path": "files",
+      "accessCount": 1,
+      "lastAccessed": 1770807591911,
+      "type": "directory"
+    }
+  ],
+  "userDirectives": []
+}

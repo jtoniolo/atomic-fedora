@@ -1,0 +1,8 @@
+{
+  "active": true,
+  "started_at": "2026-02-11T11:20:47.925Z",
+  "original_prompt": "why is linux so conservative with swap? the rule of thumb for windows was always RAM x 1.5... I get Linux is more efficient, but still.",
+  "session_id": "943eb025-3516-41f4-972a-7ee2d81611b8",
+  "reinforcement_count": 7,
+  "last_checked_at": "2026-02-11T11:37:30.424Z"
+}
