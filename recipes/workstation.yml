@@ -20,9 +20,10 @@ modules:
     repos:
       files:
         - antigravity.repo
+        - starship.repo
         # negativo17-multimedia removed - no F43 packages, aurora-dx has fedora-multimedia
-      # atim/starship COPR removed - no aurora-43 chroot available,
-      # and starship is in standard Fedora repos if needed
+      # atim/starship added as .repo file instead of copr: shorthand
+      # because Aurora's OS ID prevents COPR chroot auto-detection
     install:
       packages:
         # --- AI CODING ASSISTANT ---
