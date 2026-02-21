@@ -21,8 +21,8 @@ modules:
       files:
         - antigravity.repo
         # negativo17-multimedia removed - no F43 packages, aurora-dx has fedora-multimedia
-      copr:
-        - atim/starship
+      # atim/starship COPR removed - no aurora-43 chroot available,
+      # and starship is in standard Fedora repos if needed
     install:
       packages:
         # --- AI CODING ASSISTANT ---
@@ -37,6 +37,7 @@ modules:
         - tlp-rdw
 
         # --- SHELL & CORE UTILITIES ---
+        - starship
         - micro
         - bat
         - ripgrep
