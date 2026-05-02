@@ -39,7 +39,6 @@ jobs:
         recipe:
           - server.yml
           - workstation.yml
-          - dad-surface.yml
     steps:
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
