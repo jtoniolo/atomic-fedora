@@ -15,6 +15,7 @@ modules:
   - type: containerfile
     snippets:
       - RUN systemctl mask power-profiles-daemon.service
+      - RUN dnf remove -y tuned-ppd || true
 
   - type: dnf
     repos:
