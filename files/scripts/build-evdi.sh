@@ -41,7 +41,7 @@ fi
 # Ensure /tmp is world-writable. BlueBuild's bind mounts under /tmp
 # (for scripts, modules, files) can change /tmp permissions, which prevents
 # the akmods user from creating its temp build directory there.
-chmod 1777 /tmp
+chmod 1777 /tmp /var/tmp
 
 # Build the kmod for the specific kernel.
 # Capture exit code so we can dump the build log on failure instead of
