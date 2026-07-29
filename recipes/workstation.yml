@@ -57,32 +57,10 @@ modules:
         - kio-gdrive
         - kpeoplevcard
 
-  # --- VOXTYPE (push-to-talk voice-to-text) ---
-  # No upstream dnf repo/COPR exists, so the release RPM is pinned by URL.
-  # The RPM is unsigned (detached .asc only), hence no-gpgchecks in its own
-  # dnf block so the main install above keeps signature checking.
-  - type: dnf
-    install:
-      no-gpgchecks: true
-      packages:
-        - https://github.com/peteonrails/voxtype/releases/download/v0.7.5/voxtype-0.7.5-1.x86_64.rpm
-        # Wayland typing/clipboard/notification helpers voxtype shells out to
-        - wtype
+        # --- WAYLAND CLIPBOARD / NOTIFICATION / MEDIA HELPERS ---
         - wl-clipboard
         - libnotify
         - playerctl
-
-  - type: containerfile
-    snippets:
-      # The RPM's %post picks the /usr/bin/voxtype variant from the BUILD host's
-      # CPU. CI runners have AVX-512; the T14's Zen 3 (Cezanne) does not, which
-      # would mean SIGILL on first run. Pin the symlink to the avx2 build.
-      - RUN rm -f /usr/bin/voxtype && ln -sf /usr/lib/voxtype/voxtype-avx2 /usr/bin/voxtype
-      # Drop the variants this hardware can't use (~450 MB of NVIDIA/ROCm/AVX-512).
-      - RUN rm -rf /usr/lib/voxtype/cuda-12 /usr/lib/voxtype/cuda-13 /usr/lib/voxtype/migraphx
-        /usr/lib/voxtype/voxtype-onnx-cuda-12 /usr/lib/voxtype/voxtype-onnx-cuda-13
-        /usr/lib/voxtype/voxtype-onnx-migraphx /usr/lib/voxtype/voxtype-onnx-rocm
-        /usr/lib/voxtype/voxtype-avx512 /usr/lib/voxtype/voxtype-onnx-avx512
 
   # --- DISPLAYLINK SUPPORT ---
   # Build evdi kernel module (not available in ublue-os/akmods)
