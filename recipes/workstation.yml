@@ -22,6 +22,7 @@ modules:
       files:
         - antigravity.repo
         - starship.repo
+        - nextcloud-office.repo
         # negativo17-multimedia removed - no F43 packages, aurora-dx has fedora-multimedia
       # atim/starship added as .repo file instead of copr: shorthand
       # because Aurora's OS ID prevents COPR chroot auto-detection
@@ -56,6 +57,7 @@ modules:
         # --- KDE and GUI Apps ---
         - kio-gdrive
         - kpeoplevcard
+        - nextcloud-office-nextcloudoffice # installs to /opt; BlueBuild handles /opt automatically
 
         # --- WAYLAND CLIPBOARD / NOTIFICATION / MEDIA HELPERS ---
         - wl-clipboard
