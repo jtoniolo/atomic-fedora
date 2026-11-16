@@ -111,8 +111,6 @@ modules:
           # --- PRODUCTIVITY & TOOLS ---
           - com.github.tchx84.Flatseal
           - com.bitwarden.desktop
-          - org.onlyoffice.desktopeditors
-          - org.libreoffice.LibreOffice
           - com.nextcloud.desktopclient.nextcloud
           - com.actualbudget.actual
           - org.kde.kcalc
