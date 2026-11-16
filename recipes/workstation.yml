@@ -15,7 +15,7 @@ modules:
   - type: containerfile
     snippets:
       - RUN systemctl mask power-profiles-daemon.service
-      - RUN dnf remove -y tuned-ppd || true
+      - RUN dnf remove -y tuned tuned-ppd || true # F45 base ships tuned, which conflicts with tlp
 
   - type: dnf
     repos:
